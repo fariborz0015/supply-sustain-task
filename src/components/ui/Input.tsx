@@ -72,10 +72,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       !!props.value ? true : labelShrink
     );
     const [error, setError] = React.useState<string | null>(null);
- 
+
     // Validate the value based on the provided schema
     const validate = (value: string) => {
-      if (validation) {
+      if (validation && !props.disabled) {
         validation
           .validate(value)
           .then(() => setError(null))
@@ -87,10 +87,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     };
 
     const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-      setIsFocused(false);
-      setIsFilled(event.target.value !== "");
-      validate(event.target.value);
-      console.log(event.target.value);
+      if (!props.disabled) {
+        setIsFocused(false);
+        setIsFilled(event.target.value !== "");
+        validate(event.target.value);
+      }
     };
 
     const containerRef = React.useRef<HTMLDivElement | null>(null);
@@ -101,7 +102,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           ref={containerRef}
           className={twM(
             "relative border flex items-center border-gray-400 rounded-md",
-            props.disabled && "opacity-50",
+            props.disabled && "opacity-50 [&>*]:cursor-not-allowed",
             inputVariant({ variant: error ? "error" : variant, cSize }),
             containerClassName
           )}
@@ -109,7 +110,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           {(label || placeholder) && (
             <label
               htmlFor={props.id}
-              onClick={() => setIsFocused(true)}
+              onClick={() => {
+                if (!props.disabled) setIsFocused(true);
+              }}
               className={twM(
                 "absolute top-1/2 bg-inherit -translate-y-1/2  transition-all",
                 startAdornment ? "start-10" : "start-4",

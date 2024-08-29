@@ -32,11 +32,21 @@ export default function Home() {
         <div className="mb-4">
           <ul className="text-gray-700 mb-4 ps-4 list-disc">
             <li>Default Mode</li>
-            <li>Has Placeholder</li>
-            <li>No Adornments</li>
-            <li>No Label</li>
           </ul>
           <Input type="text" placeholder="Enter your name" />
+        </div>
+        <div className="mb-4">
+          <ul className="text-gray-700 mb-4 ps-4 list-disc">
+            <li>Default Mode</li>
+            <li>Validation Applied</li>
+          </ul>
+          <Input
+            type="text"
+            placeholder="Enter your Email"
+            validation={Yup.string()
+              .email("Invalid email")
+              .required("Email is required")}
+          />
         </div>
 
         {/* Input with Error State */}
@@ -72,14 +82,40 @@ export default function Home() {
               .required("Email is required")}
           />
         </div>
+        <div className="mb-4">
+          <ul className="text-gray-700 mb-4 ps-4 list-disc">
+            <li>On Invalid Handler</li>
+          </ul>
+          <Input
+            type="text"
+            label="Email"
+            placeholder="Enter your email"
+            onInvalid={(error) => alert(error.message)}
+            validation={Yup.string()
+              .email("Invalid email")
+              .required("Email is required")}
+          />
+        </div>
+        <div className="mb-4">
+          <ul className="text-gray-700 mb-4 ps-4 list-disc">
+            <li>disabled </li>
+          </ul>
+          <Input
+            type="text"
+            label="Email"
+            placeholder="Enter your email"
+            disabled
+            onInvalid={(error) => alert(error.message)}
+            validation={Yup.string()
+              .email("Invalid email")
+              .required("Email is required")}
+          />
+        </div>
 
         {/* RTL Input */}
         <div className="mb-4 ">
           <ul className="text-gray-700 mb-4 ps-4 list-disc">
             <li>RTL </li>
-            <li>Has Label</li>
-            <li>Has Placeholder</li>
-            <li>No Adornments</li>
           </ul>
           <Input
             dir="rtl"
